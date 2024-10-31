@@ -10,6 +10,8 @@ const wgGame = {
     gameStart: function () {
         this.pickSecretWord();
         this.displaySecretWord();
+        this.userGuess = [];
+        this.correctGuess = [];
         document.getElementById("guesses-left").innerText = "Guesses left: " + this.guessesLeft;
     },
 
@@ -45,6 +47,7 @@ const wgGame = {
         // if letter matches...
         if (value > -1) {
             this.checkCorrectLetter();
+            this.gameWin();
             document.getElementById("guesses-left").innerText = "Guesses Left: " + this.guessesLeft;
         // if letter doesn't match...
         } else  {
@@ -93,8 +96,10 @@ const wgGame = {
 
     // Check for win
     gameWin: function() {
-        if (this.guessesLeft = 0) {
-
+        if (document.getElementById("test").innerText.includes("_")) {
+            console.log('yes!')
+        } else {
+            this.gameStart();
         }
     },
 
