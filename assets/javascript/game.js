@@ -52,6 +52,7 @@ const wgGame = {
         // if letter doesn't match...
         } else  {
             this.checkWrongLetter();
+            this.gameLose();
             document.getElementById("guesses-left").innerText = "Guesses Left: " + this.guessesLeft;
         }
     },
@@ -99,6 +100,13 @@ const wgGame = {
         if (document.getElementById("test").innerText.includes("_")) {
             console.log('yes!')
         } else {
+            this.gameStart();
+        }
+    },
+
+    // Check for loss
+    gameLose: function() {
+        if (this.guessesLeft === 0) {
             this.gameStart();
         }
     },
