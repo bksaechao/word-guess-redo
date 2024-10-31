@@ -5,11 +5,14 @@ const wgGame = {
     guessesLeft: null,
     userGuess: [],
     correctGuess: [],
-    // Set-up game and builds world view.
+
+    // Set-up game and builds world view
     gameStart: function () {
         this.pickSecretWord();
         this.displaySecretWord();
+        document.getElementById("guesses-left").innerText = "Guesses left: " + this.guessesLeft;
     },
+
     //Randomly picks word from words array
     pickSecretWord: function () {
                 // Picks a word from words array at random
@@ -18,8 +21,9 @@ const wgGame = {
                 this.secretWord = word
                 console.log(word);
                 // Sets guesses left
-                this.guessesLeft = word.length + 5
+                this.guessesLeft = word.length + 3
     },
+
     // Displays world onto DOM as hidden letters
     displaySecretWord: function () {
         var hiddenWord = this.secretWord.split('').map(
@@ -40,21 +44,38 @@ const wgGame = {
         let value = this.secretWord.indexOf(key);
         // if letter matches...
         if (value > -1) {
-            this.correctGuess.push(key)
-            this.guessesLeft--;
-            console.log("Correct Guesses: " + this.correctGuess);
+            this.checkCorrectLetter();
+            document.getElementById("guesses-left").innerText = "Guesses Left: " + this.guessesLeft;
         // if letter doesn't match...
         } else  {
-            this.userGuess.push(key);
-            this.guessesLeft--;
-            console.log("Incorrect Guesses: " + this.userGuess);
+            this.checkWrongLetter();
+            document.getElementById("guesses-left").innerText = "Guesses Left: " + this.guessesLeft;
         }
     },
 
-    correctKey: function() {
-        
+    checkCorrectLetter: function() {
+        if (wgGame.secretWord.indexOf(key) > -1 && wgGame.correctGuess.includes(key)) {
+            document.getElementById("banner").innerText = "You already guessed that!";
+            setTimeout(wgGame.resetText, 500);
+        } else {
+            wgGame.correctGuess.push(key);
+            console.log("Correct Guesses: " + this.correctGuess);
+            this.guessesLeft--;
+        }
     },
 
+    checkWrongLetter: function() {
+        if (wgGame.secretWord.indexOf(key) === -1 && wgGame.userGuess.includes(key)) {
+            document.getElementById("banner").innerText = "You already guessed that!";
+            setTimeout(wgGame.resetText, 500);
+        } else {
+            wgGame.userGuess.push(key);
+            console.log("Incorrect Guesses: " + this.userGuess);
+            this.guessesLeft--;
+        }
+    },
+
+    // Displays correctly guessed letters onto page
     rebuildWord: function() {
         let rebuiltWord = this.secretWord.split('').map(
             function(key) {
@@ -70,9 +91,17 @@ const wgGame = {
         document.getElementById('test').innerHTML = rebuiltWord;
     },
 
-    wrongInput: function() {
+    // Check for win
+    gameWin: function() {
+        if (this.guessesLeft = 0) {
+
+        }
+    },
+
+    // Resets title text
+    resetText: function() {
         document.getElementById("banner").innerText = "Guess the Word!"
-    }
+    },
 }
 
 wgGame.gameStart();
@@ -87,6 +116,6 @@ document.onkeyup = (e) => {
         wgGame.rebuildWord(key);
     } else {
         document.getElementById("banner").innerText = "Invalid Input!"
-        setTimeout(wgGame.wrongInput, 500);
+        setTimeout(wgGame.resetText, 500);
     }
 }
