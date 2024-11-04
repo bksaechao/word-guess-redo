@@ -79,7 +79,7 @@ const wgGame = {
       this.guessesLeft--;
       document.getElementById("guesses-left").innerText =
         "Guesses Left: " + this.guessesLeft;
-    } else {
+    } else if (wgGame.correctGuess.indexOf(key) > -1) {
       this.repeatedLetter();
     }
   },
@@ -95,7 +95,7 @@ const wgGame = {
       this.gameLose();
       document.getElementById("guesses-left").innerText =
         "Guesses Left: " + this.guessesLeft;
-    } else {
+    } else if (wgGame.userGuess.indexOf(key) > -1) {
       this.repeatedLetter();
     }
   },
