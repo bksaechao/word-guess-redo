@@ -9,47 +9,66 @@ const wgGame = {
     "ludwig",
     "tiger",
     "youtube",
-    "burger king",
+    "asmongold",
+    "demon",
+    "buddah",
+    "kurosaki ichigo",
+    "dinosaur",
+    "genshin impact",
+    "sushi",
+    "javascript",
+    "zebra",
+    "dragon age",
+    "monster hunter",
+    "fortnite",
+    "lucky daye",
+    "money",
   ],
   alphabet: "abcdefghijklmnopqrstuvwxyz",
   secretWord: null,
-  guessesLeft: null,
+  wins: 0,
+  guessesLeft: 0,
   userGuess: [],
   correctGuess: [],
 
   // Set-up game and builds world view
   gameStart: function () {
     this.pickSecretWord();
-    this.displaySecretWord();
-    document.getElementById("guesses-left").innerText =
-      "Guesses left: " + this.guessesLeft;
+    this.rebuildWord();
+    this.updateTotalGuess();
   },
 
-  //Randomly picks word from words array
+  resetGame: function () {
+    this.userGuess = [];
+    this.correctGuess = [];
+    this.gameStart();
+  },
+
+  // Randomly picks word from words array
   pickSecretWord: function () {
     // Picks a word from words array at random
     let word = wgGame.words[Math.floor(Math.random() * wgGame.words.length)];
     // Sets secretWord to randomly picked word
     this.secretWord = word;
     console.log(word);
-    // Sets guesses left
-    this.guessesLeft = word.length + 3;
   },
 
-  // Displays world onto DOM as hidden letters
-  displaySecretWord: function () {
-    var hiddenWord = this.secretWord
-      .split("")
-      .map(function (letter) {
-        if (letter === " ") {
-          return "\xa0";
-        } else {
-          return " _ ";
-        }
-      })
-      .join("");
-    console.log(hiddenWord);
-    document.getElementById("test").innerHTML = hiddenWord;
+  // Sets & displays total guesses
+  updateTotalGuess: function () {
+    this.guessesLeft = this.secretWord.length + 3;
+    document.getElementById("guesses-left").innerText =
+      "Guesses left: " + this.guessesLeft;
+  },
+
+  // Handles all logic when user guesses a letter
+  handleGuess: function () {
+    if (this.guessesLeft === 0) {
+      this.resetGame();
+    } else {
+      this.updateGuess();
+      this.rebuildWord();
+      this.gameWin();
+    }
   },
 
   // Checks for a match between user input at secretWord array
@@ -57,44 +76,51 @@ const wgGame = {
     let value = this.secretWord.indexOf(key);
     // if letter matches...
     if (value > -1) {
-      this.checkCorrectLetter();
-      this.gameWin();
-      document.getElementById("guesses-left").innerText =
-        "Guesses Left: " + this.guessesLeft;
+      this.handleCorrectLetter();
       // if letter doesn't match...
     } else {
-      this.checkWrongLetter();
-      this.gameLose();
-      document.getElementById("guesses-left").innerText =
-        "Guesses Left: " + this.guessesLeft;
+      this.handleWrongLetter();
     }
   },
 
-  checkCorrectLetter: function () {
+  handleCorrectLetter: function () {
     if (
       wgGame.secretWord.indexOf(key) > -1 &&
       wgGame.correctGuess.includes(key)
     ) {
-      document.getElementById("banner").innerText = "You already guessed that!";
-      setTimeout(wgGame.resetText, 500);
+      this.repeatLetter();
     } else {
       wgGame.correctGuess.push(key);
       console.log("Correct Guesses: " + this.correctGuess);
       this.guessesLeft--;
+      document.getElementById("guesses-left").innerText =
+        "Guesses Left: " + this.guessesLeft;
     }
   },
 
-  checkWrongLetter: function () {
+  handleWrongLetter: function () {
     if (
       wgGame.secretWord.indexOf(key) === -1 &&
       wgGame.userGuess.includes(key)
     ) {
-      document.getElementById("banner").innerText = "You already guessed that!";
-      setTimeout(wgGame.resetText, 500);
+      this.repeatLetter();
     } else {
       wgGame.userGuess.push(key);
       console.log("Incorrect Guesses: " + this.userGuess);
       this.guessesLeft--;
+      document.getElementById("guesses-left").innerText =
+        "Guesses Left: " + this.guessesLeft;
+    }
+  },
+
+  // Check for win
+  gameWin: function () {
+    if (document.getElementById("test").innerText.includes("_")) {
+      this.rebuildWord();
+    } else {
+      this.resetGame();
+      this.wins++;
+      document.getElementById("wins").innerText = "Wins: " + this.wins;
     }
   },
 
@@ -115,25 +141,15 @@ const wgGame = {
     document.getElementById("test").innerHTML = rebuiltWord;
   },
 
-  // Check for win
-  gameWin: function () {
-    if (document.getElementById("test").innerText.includes("_")) {
-      console.log("yes!");
-    } else {
-      this.gameStart();
-    }
-  },
-
-  // Check for loss
-  gameLose: function () {
-    if (this.guessesLeft === 0) {
-      this.gameStart();
-    }
-  },
-
   // Resets title text
   resetText: function () {
     document.getElementById("banner").innerText = "Guess the Word!";
+  },
+
+  // Tells user if a letter has already been guessed
+  repeatLetter: function () {
+    document.getElementById("banner").innerText = "You already guessed that!";
+    setTimeout(wgGame.resetText, 500);
   },
 };
 
@@ -142,12 +158,12 @@ wgGame.gameStart();
 document.onkeyup = (e) => {
   // capture user input
   key = e.key.toLowerCase();
-  console.log(key);
   // checks if user input is a letter
   if (wgGame.alphabet.includes(key)) {
-    wgGame.updateGuess();
-    wgGame.rebuildWord(key);
+    // handles game logic when letter is clicked
+    wgGame.handleGuess();
   } else {
+    // if user input is not a letter...
     document.getElementById("banner").innerText = "Invalid Input!";
     setTimeout(wgGame.resetText, 500);
   }
