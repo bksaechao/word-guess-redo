@@ -1,28 +1,110 @@
 const wgGame = {
   words: [
-    "red",
-    "blue",
-    "green",
-    "yellow",
-    "fabulous",
-    "bleach",
-    "ludwig",
-    "tiger",
-    "youtube",
-    "asmongold",
-    "demon",
-    "buddah",
-    "kurosaki ichigo",
-    "dinosaur",
-    "genshin impact",
-    "sushi",
-    "javascript",
-    "zebra",
-    "dragon age",
-    "monster hunter",
-    "fortnite",
-    "lucky daye",
-    "money",
+    {
+      artist: "rini",
+      image: "assets/images/rini.jpeg",
+      song: "assets/audio/rini.mp3",
+    },
+    {
+      artist: "bruno mars",
+      image: "assets/images/rini.jpeg",
+      song: "assets/audio/rini.mp3",
+    },
+    {
+      artist: "blxst",
+      image: "assets/images/rini.jpeg",
+      song: "assets/audio/rini.mp3",
+    },
+    {
+      artist: "shallou",
+      image: "assets/images/rini.jpeg",
+      song: "assets/audio/rini.mp3",
+    },
+    {
+      artist: "saosin",
+      image: "assets/images/rini.jpeg",
+      song: "assets/audio/rini.mp3",
+    },
+    {
+      artist: "a day to remember",
+      image: "assets/images/rini.jpeg",
+      song: "assets/audio/rini.mp3",
+    },
+    {
+      artist: "zedd",
+      image: "assets/images/rini.jpeg",
+      song: "assets/audio/rini.mp3",
+    },
+    {
+      artist: "san holo",
+      image: "assets/images/rini.jpeg",
+      song: "assets/audio/rini.mp3",
+    },
+    {
+      artist: "gabe bondoc",
+      image: "assets/images/rini.jpeg",
+      song: "assets/audio/rini.mp3",
+    },
+    {
+      artist: "giveon",
+      image: "assets/images/rini.jpeg",
+      song: "assets/audio/rini.mp3",
+    },
+    {
+      artist: "matisse and sadko",
+      image: "assets/images/rini.jpeg",
+      song: "assets/audio/rini.mp3",
+    },
+    {
+      artist: "xavier omar",
+      image: "assets/images/rini.jpeg",
+      song: "assets/audio/rini.mp3",
+    },
+    {
+      artist: "june",
+      image: "assets/images/rini.jpeg",
+      song: "assets/audio/rini.mp3",
+    },
+    {
+      artist: "christian kuria",
+      image: "assets/images/rini.jpeg",
+      song: "assets/audio/rini.mp3",
+    },
+    {
+      artist: "seven lions",
+      image: "assets/images/rini.jpeg",
+      song: "assets/audio/rini.mp3",
+    },
+    {
+      artist: "madeon",
+      image: "assets/images/rini.jpeg",
+      song: "assets/audio/rini.mp3",
+    },
+    {
+      artist: "desmond dennis",
+      image: "assets/images/rini.jpeg",
+      song: "assets/audio/rini.mp3",
+    },
+    {
+      artist: "lione",
+      image: "assets/images/rini.jpeg",
+      song: "assets/audio/rini.mp3",
+    },
+    {
+      artist: "justin bieber",
+      image: "assets/images/rini.jpeg",
+      song: "assets/audio/rini.mp3",
+    },
+    {
+      artist: "maxwell",
+      image: "assets/images/rini.jpeg",
+      song: "assets/audio/rini.mp3",
+    },
+    {
+      artist: "tone stith",
+      image: "assets/images/rini.jpeg",
+      song: "assets/audio/rini.mp3",
+    },
   ],
   alphabet: "abcdefghijklmnopqrstuvwxyz",
   secretWord: null,
@@ -49,15 +131,16 @@ const wgGame = {
   // Randomly picks word from words array
   pickSecretWord: function () {
     // Picks a word from words array at random
-    let word = wgGame.words[Math.floor(Math.random() * wgGame.words.length)];
+    let word = this.words[Math.floor(Math.random() * this.words.length)];
     // Sets secretWord to randomly picked word
     this.secretWord = word;
     console.log(word);
+    console.log(this.secretWord.image);
   },
 
   // Sets & displays total guesses
   updateTotalGuess: function () {
-    this.guessesLeft = this.secretWord.length + 3;
+    this.guessesLeft = this.secretWord.artist.length + 3;
     document.getElementById("guesses-left").innerText =
       "Guesses left: " + this.guessesLeft;
   },
@@ -81,7 +164,7 @@ const wgGame = {
   handleCorrectLetter: function () {
     if (
       wgGame.correctGuess.indexOf(key) === -1 &&
-      wgGame.secretWord.indexOf(key) > -1
+      wgGame.secretWord.artist.indexOf(key) > -1
     ) {
       wgGame.correctGuess.push(key);
       console.log("Correct Guesses: " + this.correctGuess);
@@ -97,7 +180,7 @@ const wgGame = {
   handleWrongLetter: function () {
     if (
       this.userGuess.indexOf(key) === -1 &&
-      this.secretWord.indexOf(key) === -1
+      this.secretWord.artist.indexOf(key) === -1
     ) {
       wgGame.userGuess.push(key);
       console.log("Incorrect Guesses: " + this.userGuess);
@@ -121,11 +204,18 @@ const wgGame = {
     document.getElementById("wrong-letter").innerText = wrongLetters;
   },
 
+  displayArtist: function () {
+    let image = document.getElementById("artist-image");
+    image.src = this.secretWord.image;
+    image.style.display = "initial";
+  },
+
   // Check if " _ " still exist within secret word, otherwise reset word and update wins
   gameWin: function () {
     if (document.getElementById("test").innerText.includes("_")) {
       this.rebuildWord();
     } else {
+      this.displayArtist();
       this.resetGame();
       this.wins++;
       document.getElementById("wins").innerText = "Wins: " + this.wins;
@@ -143,7 +233,7 @@ const wgGame = {
 
   // Displays correctly guessed letters onto page
   rebuildWord: function () {
-    let rebuiltWord = this.secretWord
+    let rebuiltWord = this.secretWord.artist
       .split("")
       .map(function (key) {
         if (key === " ") {

@@ -4,7 +4,7 @@
     text-align: center;
     margin: 0 auto;
     background-color: aqua;
-    margin-top: 250px;
+    margin-top: 150px;
     padding: 30px;
 }
 
@@ -14,5 +14,11 @@ h1 {
 }
 
 #wrong-letter {
-    font-size: 50px;
+    font-size: 40px;
+}
+
+#artist-image {
+    display: none;
+    height: 250px;
+    width: 350px;
 }
