@@ -42,6 +42,7 @@ const wgGame = {
   resetGame: function () {
     this.userGuess = [];
     this.correctGuess = [];
+    this.resetGuessedLetters();
     this.gameStart();
   },
 
@@ -63,12 +64,20 @@ const wgGame = {
 
   // Checks for a match between user input at secretWord array
   updateGuess: function () {
+    // if letter is correct..
     this.handleCorrectLetter();
+    // if letter is incorrect..
     this.handleWrongLetter();
+    // updates page with re-built word
     this.rebuildWord();
+    this.displayWrongLetter();
+    // checks for win
     this.gameWin();
+    // checks for loss
+    this.gameLose();
   },
 
+  // pushes matching letter to correct guess array if it hasn't been picked already & updates guesses
   handleCorrectLetter: function () {
     if (
       wgGame.correctGuess.indexOf(key) === -1 &&
@@ -77,7 +86,6 @@ const wgGame = {
       wgGame.correctGuess.push(key);
       console.log("Correct Guesses: " + this.correctGuess);
       this.guessesLeft--;
-      this.gameLose();
       document.getElementById("guesses-left").innerText =
         "Guesses Left: " + this.guessesLeft;
     } else if (wgGame.correctGuess.indexOf(key) > -1) {
@@ -85,6 +93,7 @@ const wgGame = {
     }
   },
 
+  // pushes non-matching letter to guessed letter
   handleWrongLetter: function () {
     if (
       this.userGuess.indexOf(key) === -1 &&
@@ -101,7 +110,18 @@ const wgGame = {
     }
   },
 
-  // Check for win
+  // Display incorrect guesses to page
+  displayWrongLetter: function () {
+    let wrongLetters = this.userGuess
+      .map((letter) => {
+        return letter;
+      })
+      .join(" ");
+
+    document.getElementById("wrong-letter").innerText = wrongLetters;
+  },
+
+  // Check if " _ " still exist within secret word, otherwise reset word and update wins
   gameWin: function () {
     if (document.getElementById("test").innerText.includes("_")) {
       this.rebuildWord();
@@ -112,6 +132,7 @@ const wgGame = {
     }
   },
 
+  // Function runs when guesses run out
   gameLose: function () {
     if (this.guessesLeft === 0) {
       this.resetGame();
@@ -140,6 +161,11 @@ const wgGame = {
   // Resets title text
   resetText: function () {
     document.getElementById("banner").innerText = "Guess the Word!";
+  },
+
+  // Reset guessed letters on page
+  resetGuessedLetters: function () {
+    document.getElementById("wrong-letter").innerText = "";
   },
 
   // Tells user if a letter has already been guessed
