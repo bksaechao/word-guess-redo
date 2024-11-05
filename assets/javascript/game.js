@@ -63,8 +63,8 @@ const wgGame = {
 
   // Checks for a match between user input at secretWord array
   updateGuess: function () {
-    this.handleWrongLetter();
     this.handleCorrectLetter();
+    this.handleWrongLetter();
     this.rebuildWord();
     this.gameWin();
   },
@@ -77,6 +77,7 @@ const wgGame = {
       wgGame.correctGuess.push(key);
       console.log("Correct Guesses: " + this.correctGuess);
       this.guessesLeft--;
+      this.gameLose();
       document.getElementById("guesses-left").innerText =
         "Guesses Left: " + this.guessesLeft;
     } else if (wgGame.correctGuess.indexOf(key) > -1) {
