@@ -3,112 +3,113 @@ const wgGame = {
     {
       artist: "rini",
       image: "assets/images/rini.jpeg",
-      song: "assets/audio/blackClover.mp3",
+      song: "assets/audio/rini.mp3",
     },
     {
       artist: "bruno mars",
       image: "assets/images/rini.jpeg",
-      song: "assets/audio/blackClover.mp3",
+      song: "assets/audio/bruno-mars.mp3",
     },
     {
       artist: "blxst",
       image: "assets/images/rini.jpeg",
-      song: "assets/audio/blackClover.mp3",
+      song: "assets/audio/blxst.mp3",
     },
     {
       artist: "shallou",
       image: "assets/images/rini.jpeg",
-      song: "assets/audio/blackClover.mp3",
+      song: "assets/audio/shallou.mp3",
     },
     {
       artist: "saosin",
       image: "assets/images/rini.jpeg",
-      song: "assets/audio/blackClover.mp3",
+      song: "assets/audio/saosin.mp3",
     },
     {
       artist: "a day to remember",
       image: "assets/images/rini.jpeg",
-      song: "assets/audio/blackClover.mp3",
+      song: "assets/audio/adtr.mp3",
     },
     {
       artist: "zedd",
       image: "assets/images/rini.jpeg",
-      song: "assets/audio/blackClover.mp3",
+      song: "assets/audio/zedd.mp3",
     },
     {
       artist: "san holo",
       image: "assets/images/rini.jpeg",
-      song: "assets/audio/blackClover.mp3",
+      song: "assets/audio/san-holo.mp3",
     },
     {
       artist: "gabe bondoc",
       image: "assets/images/rini.jpeg",
-      song: "assets/audio/blackClover.mp3",
+      song: "assets/audio/gabe-bondoc.mp3",
     },
     {
       artist: "giveon",
       image: "assets/images/rini.jpeg",
-      song: "assets/audio/blackClover.mp3",
+      song: "assets/audio/giveon.mp3",
     },
     {
       artist: "matisse and sadko",
       image: "assets/images/rini.jpeg",
-      song: "assets/audio/blackClover.mp3",
+      song: "assets/audio/matisse-sadko.mp3",
     },
     {
-      artist: "xavier omar",
+      artist: "utada hikaru",
       image: "assets/images/rini.jpeg",
-      song: "assets/audio/blackClover.mp3",
+      song: "assets/audio/utada-hikaru.mp3",
     },
     {
       artist: "june",
       image: "assets/images/rini.jpeg",
-      song: "assets/audio/blackClover.mp3",
+      song: "assets/audio/june.mp3",
     },
     {
-      artist: "christian kuria",
+      artist: "junny",
       image: "assets/images/rini.jpeg",
-      song: "assets/audio/blackClover.mp3",
+      song: "assets/audio/junny.mp3",
     },
     {
       artist: "seven lions",
       image: "assets/images/rini.jpeg",
-      song: "assets/audio/blackClover.mp3",
+      song: "assets/audio/seven-lions.mp3",
     },
     {
       artist: "madeon",
       image: "assets/images/rini.jpeg",
-      song: "assets/audio/blackClover.mp3",
+      song: "assets/audio/madeon.mp3",
     },
     {
       artist: "desmond dennis",
       image: "assets/images/rini.jpeg",
-      song: "assets/audio/blackClover.mp3",
+      song: "assets/audio/desmond-dennis.mp3",
     },
     {
       artist: "lione",
       image: "assets/images/rini.jpeg",
-      song: "assets/audio/blackClover.mp3",
+      song: "assets/audio/lione.mp3",
     },
     {
       artist: "justin bieber",
       image: "assets/images/rini.jpeg",
-      song: "assets/audio/blackClover.mp3",
+      song: "assets/audio/justin-bieber.mp3",
     },
     {
-      artist: "maxwell",
+      artist: "lucky daye",
       image: "assets/images/rini.jpeg",
-      song: "assets/audio/blackClover.mp3",
+      song: "assets/audio/lucky-daye.mp3",
     },
     {
-      artist: "tone stith",
+      artist: "dvwn",
       image: "assets/images/rini.jpeg",
-      song: "assets/audio/blackClover.mp3",
+      song: "assets/audio/dvwn.mp3",
     },
   ],
   alphabet: "abcdefghijklmnopqrstuvwxyz",
   secretWord: null,
   audio: null,
+  isPlaying: null,
   wins: 0,
   lose: 0,
   guessesLeft: 0,
@@ -152,13 +153,11 @@ const wgGame = {
     this.handleCorrectLetter();
     // if letter is incorrect..
     this.handleWrongLetter();
-    // updates page with re-built word
+    // re-displays word to page
     this.rebuildWord();
-    // displays incorrect letters to page
-    this.displayWrongLetter();
-    // checks for win
+    // check for win..
     this.gameWin();
-    // checks for loss
+    // check for loss..
     this.gameLose();
   },
 
@@ -185,6 +184,7 @@ const wgGame = {
       this.secretWord.artist.indexOf(key) === -1
     ) {
       wgGame.userGuess.push(key);
+      this.displayWrongLetter();
       console.log("Incorrect Guesses: " + this.userGuess);
       this.guessesLeft--;
       document.getElementById("guesses-left").innerText =
@@ -211,15 +211,20 @@ const wgGame = {
     image.style.display = "initial";
   },
 
+  displayName: function () {
+    document.getElementById("banner").innerText = this.secretWord.artist;
+  },
+
   // Check if " _ " still exist within secret word, otherwise reset word and update wins
   gameWin: function () {
     if (document.getElementById("test").innerText.includes("_")) {
       this.rebuildWord();
     } else {
-      this.audio.pause();
-      this.displayArtist();
-      this.resetGame();
+      console.log(this.audio.play());
       this.audio.play();
+      this.displayArtist();
+      this.displayName();
+      this.resetGame();
       this.wins++;
       document.getElementById("wins").innerText = "Wins: " + this.wins;
     }
@@ -228,10 +233,15 @@ const wgGame = {
   // Function runs when guesses run out
   gameLose: function () {
     if (this.guessesLeft === 0) {
-      this.audio.pause();
+      this.resetGame();
       this.lose++;
       document.getElementById("lose").innerText = "Lose: " + this.lose;
-      this.resetGame();
+    }
+  },
+
+  checkAudio: function () {
+    if (this.guessesLeft === 0) {
+      this.audio.pause();
     }
   },
 
@@ -273,6 +283,7 @@ const wgGame = {
   },
 };
 
+// starts the game when page is loaded
 wgGame.gameStart();
 
 document.onkeyup = (e) => {
