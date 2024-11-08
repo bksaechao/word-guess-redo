@@ -121,7 +121,6 @@ const wgGame = {
     this.rebuildWord();
     this.updateTotalGuess();
     this.displayScore();
-    this.audio = new Audio(this.secretWord.song);
   },
 
   // Resets array items, removes guessed letters from page, and picks new word
@@ -130,6 +129,15 @@ const wgGame = {
     this.correctGuess = [];
     this.resetGuessedLetters();
     this.gameStart();
+  },
+
+  resetScore: function () {
+    this.wins = 0;
+    this.lose = 0;
+    this.stopSong();
+    this.resetText();
+    this.resetImage();
+    this.resetGame();
   },
 
   // Randomly picks word from words array
@@ -327,3 +335,13 @@ document.onkeyup = (e) => {
     wgGame.resetGuessedLetters();
   }
 };
+
+button = document.getElementsByTagName("button");
+
+document.addEventListener("click", (e) => {
+  console.log(e.target);
+  if (e.target.innerText === "Reset") {
+    wgGame.resetScore();
+  } else {
+  }
+});

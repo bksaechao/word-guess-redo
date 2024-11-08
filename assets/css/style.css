@@ -47,5 +47,27 @@ h1 {
     width: 450px;
     margin-top: 15px;
     border-radius: 3rem;
+}
+
+#artist-image:hover {
     border: 5px double white;
+}
+
+button {
+    font-family: "Caveat", cursive;
+    font-size: 30px;
+    color: #ffff;
+    background-color: black;
+    width: 40%;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: darkgrey;
+    color: black;
+}
+
+button:active {
+    background-color: black;
+    color: #ffff;
 }
