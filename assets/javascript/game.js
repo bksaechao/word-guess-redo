@@ -121,6 +121,7 @@ const wgGame = {
     this.rebuildWord();
     this.updateTotalGuess();
     this.displayScore();
+    this.displayHiddenArtist();
   },
 
   // Resets array items, removes guessed letters from page, and picks new word
@@ -128,7 +129,10 @@ const wgGame = {
     this.userGuess = [];
     this.correctGuess = [];
     this.resetGuessedLetters();
-    this.gameStart();
+    this.pickSecretWord();
+    this.rebuildWord();
+    this.updateTotalGuess();
+    this.displayScore();
   },
 
   resetScore: function () {
@@ -222,13 +226,19 @@ const wgGame = {
   displayArtist: function () {
     let image = document.getElementById("artist-image");
     image.src = this.secretWord.image;
-    image.style.display = "initial";
+    image.style.visibility = "initial";
+  },
+
+  displayHiddenArtist: function () {
+    let image = document.getElementById("artist-image");
+    image.src = this.secretWord.image;
+    image.style.visibility = "hidden";
   },
 
   // Removes image from page
   resetImage: function () {
     let image = document.getElementById("artist-image");
-    image.style.display = "none";
+    image.style.visibility = "hidden";
   },
 
   // Changes heading title to artist name
@@ -335,8 +345,6 @@ document.onkeyup = (e) => {
     wgGame.resetGuessedLetters();
   }
 };
-
-button = document.getElementsByTagName("button");
 
 document.addEventListener("click", (e) => {
   console.log(e.target);

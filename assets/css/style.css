@@ -43,7 +43,7 @@ h1 {
 }
 
 #artist-image {
-    display: none;
+    display: show;
     height: 325px;
     width: 450px;
     margin-top: 15px;
