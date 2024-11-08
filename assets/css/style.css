@@ -1,11 +1,35 @@
+body {
+    background-color: rgb(0, 0, 0);
+    color: #fff;
+    font-family: "Caveat", cursive;
+}
+
 .container {
     max-width: 960px;
     width: 100%;
     text-align: center;
     margin: 0 auto;
-    background-color: aqua;
-    margin-top: 150px;
+    border-radius: 3rem;
+    margin-top: 50px;
     padding: 30px;
+}
+
+section {
+    overflow: auto;
+    padding: 5px;
+    margin: 0px 325px;
+}
+
+#wins {
+    float: left;
+}
+
+#lose {
+    float: right;
+}
+
+#test {
+    margin-bottom: 20px;
 }
 
 h1 {
@@ -19,6 +43,9 @@ h1 {
 
 #artist-image {
     display: none;
-    height: 250px;
-    width: 350px;
+    height: 325px;
+    width: 450px;
+    margin-top: 15px;
+    border-radius: 3rem;
+    border: 5px double white;
 }

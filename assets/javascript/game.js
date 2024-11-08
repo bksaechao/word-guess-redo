@@ -108,7 +108,6 @@ const wgGame = {
   ],
   alphabet: "abcdefghijklmnopqrstuvwxyz",
   secretWord: null,
-  audio: null,
   isPlaying: null,
   wins: 0,
   lose: 0,
@@ -121,9 +120,11 @@ const wgGame = {
     this.pickSecretWord();
     this.rebuildWord();
     this.updateTotalGuess();
+    this.displayScore();
     this.audio = new Audio(this.secretWord.song);
   },
 
+  // Resets array items, removes guessed letters from page, and picks new word
   resetGame: function () {
     this.userGuess = [];
     this.correctGuess = [];
@@ -147,6 +148,12 @@ const wgGame = {
       "Guesses left: " + this.guessesLeft;
   },
 
+  // Displays win/loss scores
+  displayScore: function () {
+    document.getElementById("wins").innerText = "Wins: " + this.wins;
+    document.getElementById("lose").innerText = "Lose: " + this.lose;
+  },
+
   // Checks for a match between user input at secretWord array
   updateGuess: function () {
     // if letter is correct..
@@ -161,14 +168,13 @@ const wgGame = {
     this.gameLose();
   },
 
-  // pushes matching letter to correct guess array if it hasn't been picked already & updates guesses
+  // pushes matching letter to correct guess array if not already picked already & updates guesses
   handleCorrectLetter: function () {
     if (
       wgGame.correctGuess.indexOf(key) === -1 &&
       wgGame.secretWord.artist.indexOf(key) > -1
     ) {
       wgGame.correctGuess.push(key);
-      console.log("Correct Guesses: " + this.correctGuess);
       this.guessesLeft--;
       document.getElementById("guesses-left").innerText =
         "Guesses Left: " + this.guessesLeft;
@@ -177,7 +183,7 @@ const wgGame = {
     }
   },
 
-  // pushes non-matching letter to guessed letter array
+  // pushes non-matching letter to guessed letter array if not already picked & updates guesses
   handleWrongLetter: function () {
     if (
       this.userGuess.indexOf(key) === -1 &&
@@ -185,7 +191,6 @@ const wgGame = {
     ) {
       wgGame.userGuess.push(key);
       this.displayWrongLetter();
-      console.log("Incorrect Guesses: " + this.userGuess);
       this.guessesLeft--;
       document.getElementById("guesses-left").innerText =
         "Guesses Left: " + this.guessesLeft;
@@ -205,19 +210,23 @@ const wgGame = {
     document.getElementById("wrong-letter").innerText = wrongLetters;
   },
 
+  // Displays aritist to page
   displayArtist: function () {
     let image = document.getElementById("artist-image");
     image.src = this.secretWord.image;
     image.style.display = "initial";
   },
 
+  // Removes image from page
   resetImage: function () {
     let image = document.getElementById("artist-image");
     image.style.display = "none";
   },
 
+  // Changes heading title to artist name
   displayName: function () {
-    document.getElementById("banner").innerText = this.secretWord.artist;
+    document.getElementById("banner").innerText =
+      this.secretWord.artist.toUpperCase();
   },
 
   // Check if " _ " still exist within secret word, otherwise reset word and update wins
@@ -246,24 +255,19 @@ const wgGame = {
     }
   },
 
+  // Sets source of audio tag and plays song.
   playSong: function () {
     let song = document.getElementById("audioSrc");
     song.src = this.secretWord.song;
     song.play();
   },
 
+  // Sets source of audio tag and stops song.
   stopSong: function () {
     let song = document.getElementById("audioSrc");
     song.src = this.secretWord.song;
     song.pause();
   },
-
-  // NOT WORKING
-  // checkAudio: function () {
-  //   if (this.guessesLeft === 0) {
-  //     this.audio.pause();
-  //   }
-  // },
 
   // Displays correctly guessed letters onto page
   rebuildWord: function () {
@@ -282,10 +286,6 @@ const wgGame = {
     document.getElementById("test").innerHTML = rebuiltWord;
   },
 
-  getSong: function () {
-    this.audio = new Audio(this.secretWord.song);
-  },
-
   // Resets title text
   resetText: function () {
     document.getElementById("banner").innerText = "Guess the Word!";
@@ -296,16 +296,24 @@ const wgGame = {
     document.getElementById("wrong-letter").innerText = "";
   },
 
+  resetGuessedLetters: function () {
+    setTimeout(function () {
+      wgGame.displayWrongLetter();
+    }, 500);
+  },
+
   // Tells user if a letter has already been guessed
   repeatedLetter: function () {
-    document.getElementById("banner").innerText = "You already guessed that!";
-    setTimeout(wgGame.resetText, 500);
+    document.getElementById("wrong-letter").innerText =
+      "You already guessed that!";
+    this.resetGuessedLetters();
   },
 };
 
 // starts the game when page is loaded
 wgGame.gameStart();
 
+// when user removes finger from key...
 document.onkeyup = (e) => {
   // capture user input
   key = e.key.toLowerCase();
