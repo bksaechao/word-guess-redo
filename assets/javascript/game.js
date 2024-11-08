@@ -150,7 +150,6 @@ const wgGame = {
     let word = this.words[Math.floor(Math.random() * this.words.length)];
     // Sets secretWord to randomly picked word
     this.secretWord = word;
-    console.log(word);
   },
 
   // Sets & displays total guesses
@@ -347,7 +346,6 @@ document.onkeyup = (e) => {
 };
 
 document.addEventListener("click", (e) => {
-  console.log(e.target);
   if (e.target.innerText === "Reset") {
     wgGame.resetScore();
   } else {
