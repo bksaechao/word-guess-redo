@@ -323,7 +323,7 @@ document.onkeyup = (e) => {
     wgGame.updateGuess();
   } else {
     // if user input is not a letter...
-    document.getElementById("banner").innerText = "Invalid Input!";
-    setTimeout(wgGame.resetText, 500);
+    document.getElementById("wrong-letter").innerText = "Invalid Input!";
+    wgGame.resetGuessedLetters();
   }
 };
