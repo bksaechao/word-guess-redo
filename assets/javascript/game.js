@@ -7,102 +7,102 @@ const wgGame = {
     },
     {
       artist: "bruno mars",
-      image: "assets/images/rini.jpeg",
+      image: "assets/images/bruno-mars.jpeg",
       song: "assets/audio/bruno-mars.mp3",
     },
     {
       artist: "blxst",
-      image: "assets/images/rini.jpeg",
+      image: "assets/images/blxst.jpeg",
       song: "assets/audio/blxst.mp3",
     },
     {
       artist: "shallou",
-      image: "assets/images/rini.jpeg",
+      image: "assets/images/shallou.jpeg",
       song: "assets/audio/shallou.mp3",
     },
     {
       artist: "saosin",
-      image: "assets/images/rini.jpeg",
+      image: "assets/images/saosin.jpeg",
       song: "assets/audio/saosin.mp3",
     },
     {
       artist: "a day to remember",
-      image: "assets/images/rini.jpeg",
+      image: "assets/images/adtr.jpeg",
       song: "assets/audio/adtr.mp3",
     },
     {
       artist: "zedd",
-      image: "assets/images/rini.jpeg",
+      image: "assets/images/zedd.jpeg",
       song: "assets/audio/zedd.mp3",
     },
     {
       artist: "san holo",
-      image: "assets/images/rini.jpeg",
+      image: "assets/images/san-holo.jpeg",
       song: "assets/audio/san-holo.mp3",
     },
     {
       artist: "gabe bondoc",
-      image: "assets/images/rini.jpeg",
+      image: "assets/images/gabe-bondoc.jpeg",
       song: "assets/audio/gabe-bondoc.mp3",
     },
     {
       artist: "giveon",
-      image: "assets/images/rini.jpeg",
+      image: "assets/images/giveon.jpeg",
       song: "assets/audio/giveon.mp3",
     },
     {
       artist: "matisse and sadko",
-      image: "assets/images/rini.jpeg",
+      image: "assets/images/matisse-sadko.jpeg",
       song: "assets/audio/matisse-sadko.mp3",
     },
     {
       artist: "utada hikaru",
-      image: "assets/images/rini.jpeg",
+      image: "assets/images/utada-hikaru.jpeg",
       song: "assets/audio/utada-hikaru.mp3",
     },
     {
       artist: "june",
-      image: "assets/images/rini.jpeg",
+      image: "assets/images/june.jpeg",
       song: "assets/audio/june.mp3",
     },
     {
       artist: "junny",
-      image: "assets/images/rini.jpeg",
+      image: "assets/images/junny.jpeg",
       song: "assets/audio/junny.mp3",
     },
     {
       artist: "seven lions",
-      image: "assets/images/rini.jpeg",
+      image: "assets/images/seven-lions.jpeg",
       song: "assets/audio/seven-lions.mp3",
     },
     {
       artist: "madeon",
-      image: "assets/images/rini.jpeg",
+      image: "assets/images/madeon.jpeg",
       song: "assets/audio/madeon.mp3",
     },
     {
       artist: "desmond dennis",
-      image: "assets/images/rini.jpeg",
+      image: "assets/images/desmond-dennis.jpeg",
       song: "assets/audio/desmond-dennis.mp3",
     },
     {
       artist: "lione",
-      image: "assets/images/rini.jpeg",
+      image: "assets/images/lione.jpeg",
       song: "assets/audio/lione.mp3",
     },
     {
       artist: "justin bieber",
-      image: "assets/images/rini.jpeg",
+      image: "assets/images/justin-bieber.jpeg",
       song: "assets/audio/justin-bieber.mp3",
     },
     {
       artist: "lucky daye",
-      image: "assets/images/rini.jpeg",
+      image: "assets/images/lucky-daye.jpeg",
       song: "assets/audio/lucky-daye.mp3",
     },
     {
       artist: "dvwn",
-      image: "assets/images/rini.jpeg",
+      image: "assets/images/dvwn.jpeg",
       song: "assets/audio/dvwn.mp3",
     },
   ],
@@ -211,6 +211,11 @@ const wgGame = {
     image.style.display = "initial";
   },
 
+  resetImage: function () {
+    let image = document.getElementById("artist-image");
+    image.style.display = "none";
+  },
+
   displayName: function () {
     document.getElementById("banner").innerText = this.secretWord.artist;
   },
@@ -232,17 +237,25 @@ const wgGame = {
   // Function runs when guesses run out
   gameLose: function () {
     if (this.guessesLeft === 0) {
-      this.resetGame();
+      this.stopSong();
+      this.resetImage();
+      this.resetText();
       this.lose++;
       document.getElementById("lose").innerText = "Lose: " + this.lose;
+      this.resetGame();
     }
   },
 
   playSong: function () {
     let song = document.getElementById("audioSrc");
     song.src = this.secretWord.song;
-
     song.play();
+  },
+
+  stopSong: function () {
+    let song = document.getElementById("audioSrc");
+    song.src = this.secretWord.song;
+    song.pause();
   },
 
   // NOT WORKING
