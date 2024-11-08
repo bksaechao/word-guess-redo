@@ -1,7 +1,7 @@
 # word-guess-redo
 
 <p>Simple hangman game built with vanilla javascript. Try it <a href="https://bksaechao.github.io/word-guess-redo/">here</a>!</p>
-<img src="assets/images/word-guess.gif" alt="rpsGif" height="250" width="550">
+<img src="assets/images/word-guess.gif" alt="rpsGif" height="350" width="550">
 
 ## Javascript Homework
 
