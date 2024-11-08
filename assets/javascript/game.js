@@ -220,13 +220,12 @@ const wgGame = {
     if (document.getElementById("test").innerText.includes("_")) {
       this.rebuildWord();
     } else {
-      console.log(this.audio.play());
-      this.audio.play();
+      this.playSong();
       this.displayArtist();
       this.displayName();
-      this.resetGame();
       this.wins++;
       document.getElementById("wins").innerText = "Wins: " + this.wins;
+      this.resetGame();
     }
   },
 
@@ -239,11 +238,19 @@ const wgGame = {
     }
   },
 
-  checkAudio: function () {
-    if (this.guessesLeft === 0) {
-      this.audio.pause();
-    }
+  playSong: function () {
+    let song = document.getElementById("audioSrc");
+    song.src = this.secretWord.song;
+
+    song.play();
   },
+
+  // NOT WORKING
+  // checkAudio: function () {
+  //   if (this.guessesLeft === 0) {
+  //     this.audio.pause();
+  //   }
+  // },
 
   // Displays correctly guessed letters onto page
   rebuildWord: function () {
