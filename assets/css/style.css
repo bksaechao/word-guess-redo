@@ -10,7 +10,7 @@ body {
     text-align: center;
     margin: 0 auto;
     border-radius: 3rem;
-    margin-top: 50px;
+    margin-top: 25px;
     padding: 30px;
 }
 
@@ -30,6 +30,7 @@ section {
 
 #test {
     margin-bottom: 20px;
+    font-size: 50px;
 }
 
 h1 {
