@@ -328,7 +328,9 @@ const wgGame = {
 };
 
 // starts the game when page is loaded
-wgGame.gameStart();
+document.ready(() => {
+  wgGame.gameStart();
+});
 
 // when user removes finger from key...
 document.onkeyup = (e) => {
