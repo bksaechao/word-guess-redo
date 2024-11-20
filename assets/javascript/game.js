@@ -108,7 +108,6 @@ const wgGame = {
   ],
   alphabet: "abcdefghijklmnopqrstuvwxyz",
   secretWord: null,
-  isPlaying: null,
   wins: 0,
   lose: 0,
   guessesLeft: 0,
@@ -327,7 +326,7 @@ const wgGame = {
   },
 };
 
-// starts the game when page is loaded
+// Run function to set-up game.
 wgGame.gameStart();
 
 // when user removes finger from key...
